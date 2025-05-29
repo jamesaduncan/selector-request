@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selector Request</title>
+</head>
+<body>
+    <h1>Selector Request</h1>
+    <p>This page is used to request a selector from an HTML document.</p>
+    <p>The first request will not need to go to the server, as I'll be requesting the selector <code id="local-selector">#(selector=span.a-classname)</code>.</p>
+    <p>If it works, you'll see the following text appended to the end of the document: '<span class="a-classname">I was selected without going to the network.</span>'</p>
+    <p>If it doesn't work, you won't see that.</p>
+    <p>
+        You can also specify parts of a page that are on a server, with a selector request like this: <a href="https://jamesaduncan.github.io/selector-request/remote-selector-example.html#(selector=p.message)" id="remote-selector">https://jamesaduncan.github.io/selector-request/remote-selector-example.html#(selector=p.message)</a>.
+    </p>
+    <p>
+        That message from this <a href="https://jamesaduncan.github.io/selector-request/remote-selector-example.html#(selector=p.message)">other page</a> again, should appear below if it all is working correctly.
+    </p>
+    <section id="output">
+        <h1>the output should be in here:</h1>
+    </section>
+    <script type="module">
+        import { SelectorRequest } from './index.mjs';
+        window.addEventListener('load', async () => {
+            const output = document.querySelector('#output');
+            const localSelector = document.querySelector('#local-selector').innerHTML;
+            const localElement = (await SelectorRequest.fetch( localSelector ))[0];
+            output.appendChild( localElement );
+
+            const remoteSelector = document.querySelector('#remote-selector').innerHTML;
+            const remoteElement = (await SelectorRequest.fetch( remoteSelector ))[0];
+            output.appendChild( remoteElement );
+        });
+    </script>  
+</body>
+</html>
