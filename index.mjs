@@ -4,7 +4,7 @@ class SelectorRequest {
         const url = URL.parse( request.url );
         
         const matchedParts = url.hash.match(/^#\(selector=(.*)\)$/);
-        const selector = matchedParts[1];
+        const selector = decodeURIComponent(matchedParts[1]);
         if ( !selector ) {
             throw new Error("Selector not specified in the URL.");
         }
