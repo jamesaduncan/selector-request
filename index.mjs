@@ -32,7 +32,7 @@ class SelectorRequest {
             }
         } else {
             // we just want the body of the document.
-            return SelectorRequest.doRequest( request, "body" );
+            return SelectorRequest.doRequest( request, "body > *" );
         }
     }
 }
