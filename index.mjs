@@ -14,25 +14,31 @@ class SelectorRequest {
         const request = new Request( urlString );
         const url = URL.parse( request.url );
         
+        console.log(`request url is ${url.toString()}`);
+
         const matchedParts = url.hash.match(/^#\(selector=(.*)\)$/);
+        const comparatorURL = URL.parse( request.url );
+        comparatorURL.hash = ""; // remove the hash for comparison
+
+        let selector = "";
         if ( matchedParts ) {
-            const selector = decodeURIComponent(matchedParts[1]);
-            if ( !selector ) {
-                throw new Error("Selector not specified in the URL.");
-            }
+            selector = decodeURIComponent(matchedParts[1]);
+        } else if (!matchedParts && url.hash ) {
+            selector = url.hash;
+        }
 
-            const comparatorURL = URL.parse( request.url );
-            comparatorURL.hash = "";
-
-            if ( window.location.href === comparatorURL.toString() ) {
-                // no need to go to the network if its the same thing.
-                return Array.from( document.querySelectorAll(selector) ).map( el => el.cloneNode( true ) );
-            } else {
-                return SelectorRequest.doRequest( request, selector );
-            }
+        console.log(`comparing ${window.location.href} with ${comparatorURL.toString()}`);
+        if ( window.location.href === comparatorURL.toString() ) {
+            // we're local, so we do everything in this page.
+            console.log(`Fetching selector "${selector}" from local page.`);
+            if (!selector) return Array.from( document.body.children ).map( el => el.cloneNode( true ) );           
+            return Array.from( document.querySelectorAll(selector) ).map( el => el.cloneNode( true ) );
         } else {
-            // we just want the body of the document.
-            return SelectorRequest.doRequest( request, "body > *" );
+            // we're remote, so we need to fetch the page.
+            console.log(`Fetching selector "${selector}" from remote page.`);
+            if (!selector) return SelectorRequest.doRequest( request, "body > *" );
+            return SelectorRequest.doRequest( request, selector );
+
         }
     }
 }

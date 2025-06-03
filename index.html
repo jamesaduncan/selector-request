@@ -17,6 +17,12 @@
     <p>
         That message from this <a href="https://jamesaduncan.github.io/selector-request/remote-selector-example.html#(selector=p.message)">other page</a> again, should appear below if it all is working correctly.
     </p>
+    <p id="specific-p">
+        SelectorRequest also honours the hash part of the URL, so you can use it to request a specific element from a page.
+    </p>
+    <p></p>
+        Using that technique, the previous paragraph should be appended below.
+    </p>
     <section id="output">
         <h1>the output should be in here:</h1>
     </section>
@@ -25,12 +31,16 @@
         window.addEventListener('load', async () => {
             const output = document.querySelector('#output');
             const localSelector = document.querySelector('#local-selector').innerHTML;
+            console.log('Local Selector:', localSelector);
             const localElement = (await SelectorRequest.fetch( localSelector ))[0];
             output.appendChild( localElement );
 
             const remoteSelector = document.querySelector('#remote-selector').innerHTML;
+            console.log('Remote Selector:', remoteSelector);
             const remoteElement = (await SelectorRequest.fetch( remoteSelector ))[0];
             output.appendChild( remoteElement );
+
+            output.appendChild( (await SelectorRequest.fetch( '#specific-p' ))[0] );
         });
     </script>  
 </body>
