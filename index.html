@@ -31,12 +31,10 @@
         window.addEventListener('load', async () => {
             const output = document.querySelector('#output');
             const localSelector = document.querySelector('#local-selector').innerHTML;
-            console.log('Local Selector:', localSelector);
             const localElement = (await SelectorRequest.fetch( localSelector ))[0];
             output.appendChild( localElement );
 
             const remoteSelector = document.querySelector('#remote-selector').innerHTML;
-            console.log('Remote Selector:', remoteSelector);
             const remoteElement = (await SelectorRequest.fetch( remoteSelector ))[0];
             output.appendChild( remoteElement );
 
