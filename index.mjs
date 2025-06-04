@@ -17,7 +17,7 @@ class SelectorRequest {
         const comparatorURL = URL.parse(request.url);
         comparatorURL.hash = ""; // remove the hash for comparison
         if (window.location.href === comparatorURL.toString()) {
-            return `${window.location.href}#${url.hash}`;
+            return `${window.location.href}${url.hash}`;
         } else {
             return url.toString();
         }
