@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Selector Request</title>
 </head>
+
 <body>
     <h1>Selector Request</h1>
     <p>This page is used to request a selector from an HTML document.</p>
@@ -21,25 +23,16 @@
         SelectorRequest also honours the hash part of the URL, so you can use it to request a specific element from a page.
     </p>
     <p></p>
-        Using that technique, the previous paragraph should be appended below.
+    Using that technique, the previous paragraph should be appended below.
     </p>
     <section id="output">
         <h1>the output should be in here:</h1>
     </section>
     <script type="module">
-        import { SelectorRequest } from './index.mjs';
-        window.addEventListener('load', async () => {
-            const output = document.querySelector('#output');
-            const localSelector = document.querySelector('#local-selector').innerHTML;
-            const localElement = (await SelectorRequest.fetch( localSelector ))[0];
-            output.appendChild( localElement );
-
-            const remoteSelector = document.querySelector('#remote-selector').innerHTML;
-            const remoteElement = (await SelectorRequest.fetch( remoteSelector ))[0];
-            output.appendChild( remoteElement );
-
-            output.appendChild( (await SelectorRequest.fetch( '#specific-p' ))[0] );
-        });
-    </script>  
+        import { SelectorRequest } from './index.mjs'; window.addEventListener('load', async () => { const output = document.querySelector('#output'); const localSelector = document.querySelector('#local-selector').innerHTML; const localElement = (await SelectorRequest.fetch(
+        localSelector ))[0]; output.appendChild( localElement ); const remoteSelector = document.querySelector('#remote-selector').innerHTML; const remoteElement = (await SelectorRequest.fetch( remoteSelector ))[0]; output.appendChild( remoteElement );
+        output.appendChild( (await SelectorRequest.fetch( '#specific-p' ))[0] ); });
+    </script>
 </body>
+
 </html>
